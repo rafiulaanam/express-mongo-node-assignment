@@ -69,3 +69,46 @@ module.exports.getRandomUsers = async (req, res, next) => {
       next(error);
     }
   };
+
+  module.exports.updateUser = async (req, res, next) => {
+    try {
+      const db = getDb();
+      const { id } = req.params;
+  
+      if (!ObjectId.isValid(id)) {
+        return res.status(400).json({ success: false, error: "Not a valid user id." });
+      }
+  
+      const user = await db.collection("users").updateOne({ _id: ObjectId(id) }, { $set: req.body });
+  
+      if (!user.modifiedCount) {
+        return res.status(400).json({ success: false, error: "Couldn't update the user" });
+      }
+  
+      res.status(200).json({ success: true, message: "Successfully updated the user" });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+
+  module.exports.deleteUser = async (req, res, next) => {
+    try {
+      const db = getDb();
+      const { id } = req.params;
+  
+      if (!ObjectId.isValid(id)) {
+        return res.status(400).json({ success: false, error: "Not a valid user id." });
+      }
+  
+      const user = await db.collection("users").deleteOne({ _id: ObjectId(id) });
+  
+      if (!user.deletedCount) {
+        return res.status(400).json({ success: false, error: "Couldn't delete the user" });
+      }
+  
+      res.status(200).json({ success: true, message: "Successfully deleted the user" });
+    } catch (error) {
+      next(error);
+    }
+  };
