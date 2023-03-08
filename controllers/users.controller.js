@@ -90,6 +90,24 @@ module.exports.getRandomUsers = async (req, res, next) => {
       next(error);
     }
   };
+  module.exports.updateUsers = async (req, res, next) => {
+    try {
+      const db = getDb();
+      const { value } = req.body;
+  
+     
+      const updatedUser = await db.collection("users").findByIdAndUpdate(value, user, { new: true });
+
+     
+      if (!updatedUser.modifiedCount) {
+        return res.status(400).json({ success: false, error: "Couldn't update the user" });
+      }
+  
+      res.status(200).json({ success: true, message: "Successfully updated the user" });
+    } catch (error) {
+      next(error);
+    }
+  };
 
 
   module.exports.deleteUser = async (req, res, next) => {
