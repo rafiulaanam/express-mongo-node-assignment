@@ -3,8 +3,8 @@ const cors = require("cors");
 require("dotenv").config();
 const app = express();
 const port = process.env.PORT || 5000;
-const dbConnect = require("./utils/dbConnect");
 const toolsRoutes = require("./routes/v1/tools.route.js");
+const usersRoutes = require("./routes/v1/users.route.js");
 const errorHandler = require("./middleware/errorHandler");
 const { connectToServer } = require("./utils/dbConnect");
 
@@ -29,6 +29,7 @@ connectToServer((err) => {
 });
 
 app.use("/api/v1/tools", toolsRoutes);
+app.use("/api/v1/users", usersRoutes);
 
 app.get("/", (req, res) => {
   // res.send("Hello World");

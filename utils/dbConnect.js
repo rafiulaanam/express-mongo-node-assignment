@@ -14,7 +14,7 @@ module.exports = {
         return callback(err);
       }
 
-      dbConnection = db.db("tools");
+      dbConnection = db.db("ArrafiMedia");
       console.log("Successfully connected to MongoDB.");
 
       return callback();
